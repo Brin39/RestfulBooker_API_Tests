@@ -13,6 +13,22 @@ class BookingApi(BaseApi):
         """
         super().__init__()
 
+    def _get_auth_headers(self, token):
+        """
+        Get headers with authentication token.
+        
+        Args:
+            token: Authentication token
+            
+        Returns:
+            Dictionary with headers including auth cookie
+        """
+        return {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+            "Cookie": f"token={token}"
+        }
+
     def get_all_bookings(self):
         """
         Get list of all booking IDs.
@@ -59,16 +75,11 @@ class BookingApi(BaseApi):
         Returns:
             Response with updated booking
         """
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cookie": f"token={token}"
-        }
         return self.send_request(
             "PUT",
             f"/booking/{booking_id}",
             payload=booking_data,
-            headers=headers
+            headers=self._get_auth_headers(token)
         )
 
     def partial_update_booking(self, booking_id, booking_data, token):
@@ -84,16 +95,11 @@ class BookingApi(BaseApi):
         Returns:
             Response with updated booking
         """
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Cookie": f"token={token}"
-        }
         return self.send_request(
             "PATCH",
             f"/booking/{booking_id}",
             payload=booking_data,
-            headers=headers
+            headers=self._get_auth_headers(token)
         )
 
     def delete_booking(self, booking_id, token):
@@ -108,13 +114,9 @@ class BookingApi(BaseApi):
         Returns:
             Response (typically 201 on success)
         """
-        headers = {
-            "Content-Type": "application/json",
-            "Cookie": f"token={token}"
-        }
         return self.send_request(
             "DELETE",
             f"/booking/{booking_id}",
-            headers=headers
+            headers=self._get_auth_headers(token)
         )
 
