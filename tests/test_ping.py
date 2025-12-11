@@ -1,4 +1,3 @@
-import pytest
 from logic.ping_api import PingApi
 
 

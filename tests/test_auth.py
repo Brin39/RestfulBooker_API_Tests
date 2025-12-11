@@ -1,4 +1,3 @@
-import pytest
 from logic.auth_api import AuthApi
 
 
